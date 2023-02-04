@@ -1,21 +1,41 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration {
     public function up()
     {
-        Schema::table('orders', function (Blueprint $table) {
-
-        });
+        if (App::environment() == 'testing') {
+            DB::statement("
+                ALTER TABLE orders
+                ADD pickup_destination varchar(255)
+                GENERATED ALWAYS AS
+                (
+                    LOWER(JSON_EXTRACT(trip_details,'$.from')) ||
+                    '-' ||
+                    LOWER(JSON_EXTRACT(trip_details,'$.to'))
+                )
+                VIRTUAL NULL;
+            ");
+        } else {
+            DB::statement("
+                ALTER TABLE orders
+                ADD pickup_destination varchar(255)
+                GENERATED ALWAYS AS
+                (
+                    CONCAT(
+                        LOWER(JSON_UNQUOTE(JSON_EXTRACT(trip_details,'$.from'))),
+                        '-',
+                        LOWER(JSON_UNQUOTE(JSON_EXTRACT(trip_details,'$.to')))
+                    )
+                )
+                VIRTUAL NULL;
+            ");
+        }
     }
 
     public function down()
     {
-        Schema::table('orders', function (Blueprint $table) {
-            //
-        });
+        DB::statement("ALTER TABLE orders DROP COLUMN pickup_destination;");
     }
 };

@@ -30,17 +30,17 @@ class Order extends Model
     public function totalAfterDiscount(): Attribute
     {
         return Attribute::make(
-            get: fn($value) => $this->total - $this->discount
+            get: fn ($value) => $this->total - $this->discount
         );
     }
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class,'user_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function trip(): BelongsTo
     {
-        return $this->belongsTo(Trip::class,'trip_id');
+        return $this->belongsTo(Trip::class, 'trip_id');
     }
 }

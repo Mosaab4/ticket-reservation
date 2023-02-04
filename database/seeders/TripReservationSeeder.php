@@ -8,6 +8,5 @@ class TripReservationSeeder extends Seeder
 {
     public function run()
     {
-
     }
 }

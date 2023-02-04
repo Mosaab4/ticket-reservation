@@ -11,6 +11,7 @@ class StationController extends Controller
     public function index()
     {
         $stations = Station::orderBy('id', 'desc')->get();
+
         return $this->respond(StationResource::collection($stations));
     }
 }

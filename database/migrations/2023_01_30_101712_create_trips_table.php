@@ -12,7 +12,6 @@ return new class extends Migration {
 
             $table->uuid();
 
-
             $table->unsignedBigInteger('from_id');
             $table->unsignedBigInteger('to_id');
 

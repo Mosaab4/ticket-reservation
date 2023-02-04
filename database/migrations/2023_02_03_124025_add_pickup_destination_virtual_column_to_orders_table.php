@@ -36,6 +36,6 @@ return new class extends Migration {
 
     public function down()
     {
-        DB::statement("ALTER TABLE orders DROP COLUMN pickup_destination;");
+        DB::statement('ALTER TABLE orders DROP COLUMN pickup_destination;');
     }
 };

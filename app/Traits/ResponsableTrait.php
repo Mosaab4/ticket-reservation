@@ -30,6 +30,7 @@ trait ResponsableTrait
     public function setStatus($status): static
     {
         $this->status = $status;
+
         return $this;
     }
 

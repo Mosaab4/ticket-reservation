@@ -51,7 +51,7 @@ class Handler extends ExceptionHandler
                 );
         }
 
-        if ($e instanceof MethodNotAllowedException){
+        if ($e instanceof MethodNotAllowedException) {
             return $this->setStatusCode(statusCode: 405)
                 ->setStatus(status: false)
                 ->respondWithError(

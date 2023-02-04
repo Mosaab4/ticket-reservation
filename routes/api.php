@@ -3,9 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\V1\TripController;
 use App\Http\Controllers\API\V1\OrderController;
-use App\Http\Controllers\API\V1\StationController;
 use App\Http\Controllers\API\V1\SessionController;
-
+use App\Http\Controllers\API\V1\StationController;
 
 Route::group(['middleware' => 'json.response', 'prefix' => 'v1'], function () {
     Route::post('login', 'App\Http\Controllers\API\V1\LoginController');
@@ -22,7 +21,6 @@ Route::group(['middleware' => 'json.response', 'prefix' => 'v1'], function () {
         Route::get('orders/{order}', [OrderController::class, 'show']);
         Route::delete('orders/{order}', [OrderController::class, 'destroy']);
         Route::post('orders', [OrderController::class, 'store']);
-
 
         Route::get('sessions', [SessionController::class, 'index']);
         Route::post('sessions', [SessionController::class, 'store']);

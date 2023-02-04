@@ -25,7 +25,7 @@ class TripSeeder extends Seeder
             'to_id'    => $alex->id,
             'distance' => 90,
             'bus_id'   => $short_bus->id,
-            'price'    => 200
+            'price'    => 200,
         ]);
 
         Trip::create([
@@ -34,7 +34,7 @@ class TripSeeder extends Seeder
             'to_id'    => $aswan->id,
             'distance' => 150,
             'bus_id'   => $long_bus->id,
-            'price'    => 700
+            'price'    => 700,
         ]);
     }
 }

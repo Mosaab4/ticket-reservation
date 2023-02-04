@@ -25,7 +25,7 @@ class TripFactory extends Factory
 
     public function long()
     {
-        return $this->state(fn(array $attributes) => [
+        return $this->state(fn (array $attributes) => [
             'bus_id'   => Bus::factory()->long(),
             'distance' => random_int(100, 200),
             'price'    => random_int(300, 700),
@@ -34,7 +34,7 @@ class TripFactory extends Factory
 
     public function short()
     {
-        return $this->state(fn(array $attributes) => [
+        return $this->state(fn (array $attributes) => [
             'bus_id'   => Bus::factory()->short(),
             'distance' => random_int(50, 99),
             'price'    => random_int(200, 300),

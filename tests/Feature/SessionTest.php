@@ -11,7 +11,6 @@ use App\Models\OrderItem;
 use App\Models\TripSession;
 use App\Models\TripReservation;
 use Illuminate\Support\Facades\Lang;
-use Illuminate\Routing\Middleware\ThrottleRequests;
 
 class SessionTest extends TestCase
 {
@@ -268,7 +267,6 @@ class SessionTest extends TestCase
             'locked'          => 1,
             'lock_user_id'    => $this->user->id,
         ]);
-
 
         $this->assertDatabaseHas('trip_sessions', [
             'user_id' => $this->user->id,

@@ -98,7 +98,6 @@ class OrderTest extends TestCase
             ['locked', 'available'],
         );
 
-
         $session = create(TripSession::class, [
             'user_id' => $this->user->id,
             'trip_id' => $trip->id,

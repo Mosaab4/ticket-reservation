@@ -124,6 +124,7 @@ class OrderController extends Controller
         }
 
         $order->delete();
+
         return $this->respond([], 'Deleted Successfully');
     }
 }

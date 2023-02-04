@@ -21,15 +21,15 @@ class BusFactory extends Factory
 
     public function long()
     {
-        return $this->state(fn(array $attributes) => [
+        return $this->state(fn (array $attributes) => [
             'type' => BusTypeEnum::LONG,
         ]);
     }
 
     public function short()
     {
-        return $this->state(fn(array $attributes) => [
-            'type' => BusTypeEnum::SHORT
+        return $this->state(fn (array $attributes) => [
+            'type' => BusTypeEnum::SHORT,
         ]);
     }
 }

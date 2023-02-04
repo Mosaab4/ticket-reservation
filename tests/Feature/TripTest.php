@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\Models\Trip;
-use App\Models\User;
 use App\Models\Order;
 use App\Models\OrderItem;
 

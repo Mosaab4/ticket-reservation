@@ -25,7 +25,6 @@ return new class extends Migration {
 
             $table->string('email');
 
-
             $table->json('trip_details');
 
             $table->foreign('user_id')
@@ -37,7 +36,6 @@ return new class extends Migration {
                 ->references('id')
                 ->on('trips')
                 ->onDelete('cascade');
-
 
             $table->softDeletes();
 

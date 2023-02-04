@@ -22,7 +22,6 @@ class FrequentTripsTest extends TestCase
             ],
         ], [], 5);
 
-
         create(Order::class, [
             'user_id'      => $this->user->id,
             'trip_id'      => $trip2,

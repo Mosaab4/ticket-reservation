@@ -12,12 +12,12 @@ class BusSeeder extends Seeder
     {
         Bus::create([
             'name' => 'Bus 1',
-            'type' => BusTypeEnum::SHORT
+            'type' => BusTypeEnum::SHORT,
         ]);
 
         Bus::create([
             'name' => 'Bus 2',
-            'type' => BusTypeEnum::LONG
+            'type' => BusTypeEnum::LONG,
         ]);
     }
 }

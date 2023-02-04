@@ -8,6 +8,5 @@ class ReservationSessionSeeder extends Seeder
 {
     public function run()
     {
-
     }
 }

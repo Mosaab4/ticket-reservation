@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\User;
 use App\Models\Trip;
+use App\Models\User;
 use App\Models\Order;
 use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;

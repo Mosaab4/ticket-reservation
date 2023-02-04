@@ -21,7 +21,7 @@ class TripReservationFactory extends Factory
 
     public function locked()
     {
-        return $this->state(fn(array $attributes) => [
+        return $this->state(fn (array $attributes) => [
             'locked'    => 1,
             'locked_at' => Carbon::now(),
         ]);
@@ -29,21 +29,21 @@ class TripReservationFactory extends Factory
 
     public function expired()
     {
-        return $this->state(fn(array $attributes) => [
+        return $this->state(fn (array $attributes) => [
             'locked_at' => Carbon::now()->subMinutes(10),
         ]);
     }
 
     public function available()
     {
-        return $this->state(fn(array $attributes) => [
+        return $this->state(fn (array $attributes) => [
             'remaining_seats' => 20,
         ]);
     }
 
     public function completed()
     {
-        return $this->state(fn(array $attributes) => [
+        return $this->state(fn (array $attributes) => [
             'remaining_seats' => 0,
         ]);
     }

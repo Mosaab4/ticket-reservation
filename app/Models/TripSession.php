@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -20,6 +21,13 @@ class TripSession extends Model
         'date'  => 'date',
         'seats' => 'json',
     ];
+
+    protected static function booted()
+    {
+        static::creating(function ($model) {
+            $model->uuid = Str::uuid();
+        });
+    }
 
     public function trip(): BelongsTo
     {

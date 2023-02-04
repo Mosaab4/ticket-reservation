@@ -11,7 +11,6 @@ class FrequentTripController extends Controller
     {
         $frequent_trips = DB::table('orders')
             ->select([
-                'user_id',
                 'pickup_destination as frequentBook',
                 'users.email as email',
             ])

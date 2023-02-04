@@ -6,7 +6,7 @@ use App\Http\Controllers\API\V1\OrderController;
 use App\Http\Controllers\API\V1\SessionController;
 use App\Http\Controllers\API\V1\StationController;
 
-Route::group(['middleware' => 'json.response', 'prefix' => 'v1'], function () {
+Route::group(['prefix' => 'v1'], function () {
     Route::post('login', 'App\Http\Controllers\API\V1\LoginController');
 
     Route::get('frequent-trips', 'App\Http\Controllers\API\V1\FrequentTripController');

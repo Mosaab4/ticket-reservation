@@ -6,6 +6,7 @@ use App\Models\Bus;
 use App\Models\Trip;
 use App\Models\Station;
 use App\Enums\BusTypeEnum;
+use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 
 class TripSeeder extends Seeder
@@ -20,7 +21,7 @@ class TripSeeder extends Seeder
         $aswan = Station::where('name', 'Aswan')->first();
 
         Trip::create([
-            'uuid'     => 1,
+            'uuid'     => Str::uuid(),
             'from_id'  => $cairo->id,
             'to_id'    => $alex->id,
             'distance' => 90,
@@ -29,7 +30,7 @@ class TripSeeder extends Seeder
         ]);
 
         Trip::create([
-            'uuid'     => 2,
+            'uuid'     => Str::uuid(),
             'from_id'  => $cairo->id,
             'to_id'    => $aswan->id,
             'distance' => 150,

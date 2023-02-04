@@ -126,7 +126,7 @@ class OrderTest extends TestCase
     {
         $this->actingAs($this->user);
 
-        $request = $this->post('api/v1/orders', [
+        $request = $this->json('post', 'api/v1/orders', [
             'session_id' => Str::uuid(),
         ]);
 

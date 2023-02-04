@@ -80,11 +80,10 @@ class SessionController extends Controller
         }
 
         $session = TripSession::updateOrCreate([
-            'uuid'    => Str::uuid(),
             'user_id' => auth()->id(),
             'trip_id' => $trip->trip_id,
-        ], [
             'date'  => Carbon::today(),
+        ], [
             'seats' => $request['seats'],
         ]);
 

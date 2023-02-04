@@ -8,7 +8,6 @@ use App\Models\Trip;
 use App\Models\User;
 use App\Models\Order;
 use App\Models\TripSession;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use App\Models\TripReservation;
 
@@ -18,24 +17,24 @@ class OrderTest extends TestCase
 
     public function test_user_can_reserve_a_trip()
     {
-        $trip = Trip::factory()->create();
+        $trip = create(Trip::class);
 
-        $seats = Arr::random(config('seats.all'), 3);
+        $seats = get_seats(3);
 
-        $trip_reservation = TripReservation::factory()
-            ->locked()
-            ->available()
-            ->create([
+        $trip_reservation = create(
+            TripReservation::class,
+            [
                 'lock_user_id' => $this->user->id,
                 'trip_id'      => $trip->id,
-            ]);
+            ],
+            ['locked', 'available'],
+        );
 
-        $session = TripSession::factory()
-            ->create([
-                'user_id' => $this->user->id,
-                'trip_id' => $trip->id,
-                'seats'   => $seats,
-            ]);
+        $session = create(TripSession::class, [
+            'user_id' => $this->user->id,
+            'trip_id' => $trip->id,
+            'seats'   => $seats,
+        ]);
 
         $this->actingAs($this->user);
 
@@ -88,24 +87,25 @@ class OrderTest extends TestCase
 
     public function test_user_get_discount_after_booking_more_than_five_seats()
     {
-        $trip = Trip::factory()->create();
+        $trip = create(Trip::class);
 
-        $seats = Arr::random(config('seats.all'), 6);
+        $seats = get_seats(6);
 
-        TripReservation::factory()
-            ->locked()
-            ->available()
-            ->create([
+        create(
+            TripReservation::class,
+            [
                 'lock_user_id' => $this->user->id,
                 'trip_id'      => $trip->id,
-            ]);
+            ],
+            ['locked', 'available'],
+        );
 
-        $session = TripSession::factory()
-            ->create([
-                'user_id' => $this->user->id,
-                'trip_id' => $trip->id,
-                'seats'   => $seats,
-            ]);
+
+        $session = create(TripSession::class, [
+            'user_id' => $this->user->id,
+            'trip_id' => $trip->id,
+            'seats'   => $seats,
+        ]);
 
         $this->actingAs($this->user);
 
@@ -147,7 +147,7 @@ class OrderTest extends TestCase
 
     public function test_user_can_view_order()
     {
-        $order = Order::factory()->create([
+        $order = create(Order::class, [
             'user_id' => $this->user->id,
             'email'   => $this->user->email,
         ]);
@@ -181,11 +181,9 @@ class OrderTest extends TestCase
 
     public function test_user_can_not_view_another_user_order()
     {
-        $order = Order::factory()->create([
-            'user_id' => $this->user->id,
-        ]);
+        $order = create(Order::class, ['user_id' => $this->user->id]);
 
-        $this->actingAs(User::factory()->create());
+        $this->actingAs(create(User::class));
 
         $request = $this->get("api/v1/orders/{$order->uuid}");
 
@@ -194,9 +192,7 @@ class OrderTest extends TestCase
 
     public function test_user_can_delete_order()
     {
-        $order = Order::factory()->create([
-            'user_id' => $this->user->id,
-        ]);
+        $order = create(Order::class, ['user_id' => $this->user->id]);
 
         $this->actingAs($this->user);
 
@@ -213,11 +209,9 @@ class OrderTest extends TestCase
 
     public function test_user_can_not_delete_another_user_order()
     {
-        $order = Order::factory()->create([
-            'user_id' => $this->user->id,
-        ]);
+        $order = create(Order::class, ['user_id' => $this->user->id]);
 
-        $this->actingAs(User::factory()->create());
+        $this->actingAs(create(User::class));
 
         $request = $this->delete("api/v1/orders/{$order->uuid}");
 
@@ -227,6 +221,6 @@ class OrderTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->user = User::factory()->create();
+        $this->user = create(User::class);
     }
 }

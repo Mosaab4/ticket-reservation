@@ -7,22 +7,19 @@ use App\Models\Trip;
 use App\Models\User;
 use App\Models\Order;
 use App\Models\OrderItem;
-use Illuminate\Support\Arr;
 
 class TripTest extends TestCase
 {
     public function test_show_trip()
     {
-        $trip = Trip::factory()->create();
+        $trip = create(Trip::class);
 
-        $order = Order::factory()->create([
-            'trip_id' => $trip->id,
-        ]);
+        $order = create(Order::class, ['trip_id' => $trip->id]);
 
-        $seats = Arr::random(config('seats.all'), 3);
+        $seats = get_seats(3);
 
         foreach ($seats as $seat) {
-            OrderItem::factory()->create([
+            create(OrderItem::class, [
                 'order_id' => $order->id,
                 'seat_id'  => $seat,
             ]);
@@ -55,6 +52,6 @@ class TripTest extends TestCase
     {
         parent::setUp();
 
-        $this->user = User::factory()->create();
+        $this->user = create(User::class);
     }
 }

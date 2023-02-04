@@ -9,7 +9,6 @@ use App\Models\User;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\TripSession;
-use Illuminate\Support\Arr;
 use App\Models\TripReservation;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Routing\Middleware\ThrottleRequests;
@@ -20,22 +19,21 @@ class SessionTest extends TestCase
 
     public function test_user_can_not_reserve_when_the_session_expired()
     {
-        $trip = Trip::factory()->create();
+        $trip = create(Trip::class);
 
-        $trip_reservation = TripReservation::factory()
-            ->locked()
-            ->available()
-            ->expired()
-            ->create([
+        $trip_reservation = create(
+            TripReservation::class,
+            [
                 'lock_user_id' => $this->user->id,
                 'trip_id'      => $trip->id,
-            ]);
+            ],
+            ['locked', 'available', 'expired'],
+        );
 
-        $session = TripSession::factory()
-            ->create([
-                'user_id' => $this->user->id,
-                'trip_id' => $trip->id,
-            ]);
+        $session = create(TripSession::class, [
+            'user_id' => $this->user->id,
+            'trip_id' => $trip->id,
+        ]);
 
         $this->travel(3)->minute();
 
@@ -44,7 +42,7 @@ class SessionTest extends TestCase
         $request = $this->post('api/v1/sessions', [
             'from_id' => $trip->from_id,
             'to_id'   => $trip->to_id,
-            'seats'   => Arr::random(config('seats.all'), 3),
+            'seats'   => get_seats(3),
         ]);
 
         $request->assertForbidden();
@@ -74,22 +72,23 @@ class SessionTest extends TestCase
 
     public function test_user_can_not_create_new_session_if_there_is_ongoing_session()
     {
-        $trip = Trip::factory()->create();
+        $trip = create(Trip::class);
 
-        TripReservation::factory()
-            ->available()
-            ->locked()
-            ->create([
+        create(
+            TripReservation::class,
+            [
                 'trip_id'      => $trip->id,
                 'lock_user_id' => $this->user->id,
-            ]);
+            ],
+            ['available', 'locked']
+        );
 
-        $this->actingAs(User::factory()->create());
+        $this->actingAs(create(User::class));
 
         $request = $this->post('api/v1/sessions', [
             'from_id' => $trip->from_id,
             'to_id'   => $trip->to_id,
-            'seats'   => Arr::random(config('seats.all'), 3),
+            'seats'   => get_seats(3),
         ]);
 
         $request->assertForbidden();
@@ -105,20 +104,21 @@ class SessionTest extends TestCase
 
     public function test_user_can_create_new_session_when_old_session_expire()
     {
-        $trip = Trip::factory()->create();
+        $trip = create(Trip::class);
 
-        $seats = Arr::random(config('seats.all'), 3);
+        $seats = get_seats(3);
 
-        TripReservation::factory()
-            ->available()
-            ->locked()
-            ->expired()
-            ->create([
+        create(
+            TripReservation::class,
+            [
                 'trip_id'      => $trip->id,
                 'lock_user_id' => $this->user->id,
-            ]);
+            ],
+            ['available', 'locked', 'expired'],
+        );
 
-        $second_user = User::factory()->create();
+        $second_user = create(User::class);
+
         $this->actingAs($second_user);
 
         $this->post('api/v1/sessions', [
@@ -135,18 +135,16 @@ class SessionTest extends TestCase
 
     public function test_user_can_not_reserve_completed_trip()
     {
-        $trip = Trip::factory()->create();
+        $trip = create(Trip::class);
 
-        TripReservation::factory()
-            ->comleted()
-            ->create(['trip_id' => $trip->id]);
+        create(TripReservation::class, ['trip_id' => $trip->id], ['completed']);
 
         $this->actingAs($this->user);
 
         $request = $this->post('api/v1/sessions', [
             'from_id' => $trip->from_id,
             'to_id'   => $trip->to_id,
-            'seats'   => Arr::random(config('seats.all'), 3),
+            'seats'   => get_seats(3),
         ]);
 
         $request->assertForbidden();
@@ -163,20 +161,19 @@ class SessionTest extends TestCase
 
     public function test_seats_updated_when_the_user_change_it()
     {
-        $trip = Trip::factory()->create();
+        $trip = create(Trip::class);
 
-        TripSession::factory()
-            ->create([
-                'user_id' => $this->user->id,
-                'trip_id' => $trip->id,
-                'seats'   => [
-                    'A1', 'A2',
-                ],
-            ]);
+        create(TripSession::class, [
+            'user_id' => $this->user->id,
+            'trip_id' => $trip->id,
+            'seats'   => [
+                'A1', 'A2',
+            ],
+        ]);
 
         $this->actingAs($this->user);
 
-        $new_seats = Arr::random(config('seats.all'), 4);
+        $new_seats = get_seats(4);
 
         $request = $this->post('api/v1/sessions', [
             'from_id' => $trip->from_id,
@@ -195,28 +192,25 @@ class SessionTest extends TestCase
 
     public function test_user_can_not_reserve_already_reserved_seats()
     {
-        $seats = Arr::random(config('seats.all'), 3);
+        $seats = get_seats(3);
 
-        $trip = Trip::factory()->create();
+        $trip = create(Trip::class);
 
-        TripSession::factory()
-            ->create([
-                'user_id' => $this->user->id,
-                'trip_id' => $trip->id,
-                'seats'   => $seats,
-            ]);
+        create(TripSession::class, [
+            'user_id' => $this->user->id,
+            'trip_id' => $trip->id,
+            'seats'   => $seats,
+        ]);
 
-        $reservation = Order::factory()
-            ->create([
-                'trip_id' => $trip->id,
-            ]);
+        $reservation = create(Order::class, [
+            'trip_id' => $trip->id,
+        ]);
 
         foreach ($seats as $seat) {
-            OrderItem::factory()
-                ->create([
-                    'seat_id'  => $seat,
-                    'order_id' => $reservation->id,
-                ]);
+            create(OrderItem::class, [
+                'seat_id'  => $seat,
+                'order_id' => $reservation->id,
+            ]);
         }
 
         $this->actingAs($this->user);
@@ -248,11 +242,11 @@ class SessionTest extends TestCase
 
     public function test_user_can_creat_a_new_session()
     {
-        $trip = Trip::factory()->create();
+        $trip = create(Trip::class);
 
         $this->actingAs($this->user);
 
-        $seats = Arr::random(config('seats.all'), 3);
+        $seats = get_seats(3);
 
         $request = $this->post('api/v1/sessions', [
             'from_id' => $trip->from_id,
@@ -290,7 +284,7 @@ class SessionTest extends TestCase
     {
         parent::setUp();
 
-        $this->user = User::factory()->create();
+        $this->user = create(User::class);
 
         $this->withoutMiddleware(
             ThrottleRequests::class

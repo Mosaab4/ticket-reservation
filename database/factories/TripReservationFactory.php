@@ -41,7 +41,7 @@ class TripReservationFactory extends Factory
         ]);
     }
 
-    public function comleted()
+    public function completed()
     {
         return $this->state(fn(array $attributes) => [
             'remaining_seats' => 0,

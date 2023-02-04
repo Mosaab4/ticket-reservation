@@ -47,11 +47,4 @@ class TripTest extends TestCase
                 : $this->assertTrue($seat->available);
         }
     }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->user = create(User::class);
-    }
 }

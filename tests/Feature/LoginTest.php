@@ -7,8 +7,6 @@ use App\Models\User;
 
 class LoginTest extends TestCase
 {
-    private User $user;
-
     public function test_login()
     {
         $request = $this->json('post', 'api/v1/login', [
@@ -35,11 +33,5 @@ class LoginTest extends TestCase
         ]);
 
         $request->assertUnauthorized();
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->user = create(User::class);
     }
 }

@@ -13,8 +13,6 @@ use App\Models\TripReservation;
 
 class OrderTest extends TestCase
 {
-    private User $user;
-
     public function test_user_can_reserve_a_trip()
     {
         $trip = create(Trip::class);
@@ -216,11 +214,5 @@ class OrderTest extends TestCase
         $request = $this->delete("api/v1/orders/{$order->uuid}");
 
         $request->assertNotFound();
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->user = create(User::class);
     }
 }

@@ -15,8 +15,6 @@ use Illuminate\Routing\Middleware\ThrottleRequests;
 
 class SessionTest extends TestCase
 {
-    private User $user;
-
     public function test_user_can_not_reserve_when_the_session_expired()
     {
         $trip = create(Trip::class);
@@ -278,16 +276,5 @@ class SessionTest extends TestCase
             'date'    => Carbon::today(),
             'seats'   => json_encode($seats),
         ]);
-    }
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->user = create(User::class);
-
-        $this->withoutMiddleware(
-            ThrottleRequests::class
-        );
     }
 }

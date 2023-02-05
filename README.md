@@ -34,6 +34,6 @@ To Run all unit tests:
 
 
 ### Postman Collection
-This postman collection contains all the require APIs with
+This postman collection contains all the required APIs
 
 [Postman Collection](https://documenter.getpostman.com/view/2179951/2s935oLPFV)

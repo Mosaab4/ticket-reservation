@@ -6,6 +6,7 @@
 3. ```sh docker/setup.sh```
 4. ```docker-compose up -d```
 
+#### note: please make sure you are using docker-compose V2
 
 ## Login Credentials
 You can use the following credentials to create a token so you can use the APIs:

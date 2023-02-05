@@ -13,7 +13,6 @@ class TripController extends Controller
     public function index()
     {
         $trips = Trip::query()
-            ->getReservation()
             ->with(['pickup', 'destination'])
             ->orderBy('trips.id')
             ->get();

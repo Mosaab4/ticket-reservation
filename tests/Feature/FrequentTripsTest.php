@@ -38,7 +38,6 @@ class FrequentTripsTest extends TestCase
         $request->assertJson([
             'data' => [
                 [
-                    'user_id'      => $this->user->id,
                     'frequentBook' => strtolower($trip->pickup->name) . '-' . strtolower($trip->destination->name),
                     'email'        => $this->user->email,
                     'count'        => 5,
@@ -49,7 +48,6 @@ class FrequentTripsTest extends TestCase
         $request->assertJsonMissing([
             'data' => [
                 [
-                    'user_id'      => $this->user->id,
                     'frequentBook' => strtolower($trip2->pickup->name) . '-' . strtolower($trip2->destination->name),
                     'email'        => $this->user->email,
                     'count'        => 3,

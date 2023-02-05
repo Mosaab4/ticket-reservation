@@ -23,5 +23,6 @@ abstract class TestCase extends BaseTestCase
     protected function beforeRefreshingDatabase()
     {
         Config::set('database.default', 'sqlite_testing');
+        Config::set('app.env', 'testing');
     }
 }

@@ -15,6 +15,8 @@ Route::group(['prefix' => 'v1'], function () {
         Route::get('trips', [TripController::class, 'index']);
         Route::get('trips/{trip}', [TripController::class, 'show']);
 
+        Route::get('get-trip-by-station', 'App\Http\Controllers\API\V1\GetTripByStationController');
+
         Route::get('stations', [StationController::class, 'index']);
 
         Route::get('orders', [OrderController::class, 'index']);
